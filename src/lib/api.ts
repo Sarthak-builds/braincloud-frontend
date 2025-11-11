@@ -8,6 +8,7 @@ const api = axios.create({
         'Content-Type': 'application/json',
     },
 });
+//for rest of the routes
 export const setAuthToken = (token: string | null) => {
   if (token) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
@@ -15,6 +16,16 @@ export const setAuthToken = (token: string | null) => {
     delete api.defaults.headers.Authorization;
   }
 };
+//or use this in different routes
+// api.interceptors.request.use( (config)=> {
+//     const AuthState = useAuthStore.getState(); //saari state aajayengi current
+//     const token = AuthState?.token;
+//     if(token) {
+//         config.headers.Authorization =`token ${token}`;
+//     } 
+//     return config;
+// })
+///////////////////
 //signup
 export const signupApi = async (formData:AuthFormData): Promise<AuthResponse> => {
 const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/signup`,formData);
@@ -26,3 +37,6 @@ export const signinApi = async (formData:AuthFormData): Promise<AuthResponse> =>
     const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/signin`, formData);
     return data;
 };
+
+
+export default api;

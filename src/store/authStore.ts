@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { AuthFormData, AuthResponse, User } from '@/types';
 import * as api from '../lib/api'
 
-interface AuthState {
+export interface AuthState {
     user: User | null;
     token: string | null;
     isAuthenticated: boolean;
@@ -23,6 +23,7 @@ const useAuthStore = create<AuthState>()(persist((set)=> ({
             const userResponse:User = {
                 id: response.user.id,
                 username: response.user.username,
+                email: credentials.email,
             };
             set({user: userResponse, token:response.token,
                 isAuthenticated:true,
@@ -37,6 +38,11 @@ const useAuthStore = create<AuthState>()(persist((set)=> ({
 }),
 {
     name: 'auth-storage',
+    partialize: (state) => ({
+      token: state.token,
+      user:state.user,
+      isAuthenticated:state.isAuthenticated,
+    }),
     storage: {
         getItem: (name) => {
             const str = localStorage.getItem(name);
