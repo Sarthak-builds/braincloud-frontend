@@ -41,9 +41,9 @@ const { register, login, isAuthenticated} = useAuthStore();
         await login({ username: data.username, password: data.password });
       }
      const updatedState = useAuthStore.getState();
-      console.log('isAuthenticated after submit (from store):', updatedState.isAuthenticated); // Debug state
+      console.log('isAuthenticated after submit (from store):', updatedState.isAuthenticated); 
       if (updatedState.isAuthenticated) {
-        onSubmit(data); // Trigger parent callback for redirect
+        onSubmit(data); 
       }
     };
     

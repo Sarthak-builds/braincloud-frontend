@@ -18,6 +18,22 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+  },
+  colors: {
+    cyan: {
+      500:'#06b6d4',
+    },
+  },
+}
+@layer components {
+  .card {
+    @apply bg-card text-card-foreground rounded-lg border shadow-sm;
+  }
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+  .input-theme {
+    @apply bg-white/10 border-0 text-white focus:ring-1 focus:ring-cyan-500;
   }
 }
 
@@ -69,7 +85,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+ --primary: 221.2 83.2% 53.3%;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -103,7 +119,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --primary: 217.2 91.2% 59.8%;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
