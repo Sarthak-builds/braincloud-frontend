@@ -47,7 +47,7 @@ const { register, login, isAuthenticated} = useAuthStore();
       }
     };
     
-    return (<div className="flex justify-center w-4xl items-center rounded-2xl font-gothic overflow-x-hidden bg-linear-to-b from-cyan-500/30 via-blue-500/10 to-transparent px-4 scale-105">
+    return (<div className="flex justify-center w-4xl items-center rounded-2xl font-gothic overflow-x-hidden bg-white px-4 scale-105">
         
         <Card className="bg-transparent border-none  text-white font-gothic rounded-r-none  w-4xl ">
             <CardHeader className="gap-0">

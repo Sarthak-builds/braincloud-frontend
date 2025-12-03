@@ -1,5 +1,5 @@
 export interface ContentFormData {
-    type: 'document' | 'tweet' | 'youtube' | 'link';
+    type: 'document' | 'tweet' | 'video' | 'link' | 'bookmark'| 'note' | 'article';
     link:string;
     title:string;
     tags:string[];
@@ -7,7 +7,7 @@ export interface ContentFormData {
 
 export interface Content {
     id:string;
-    type: 'document' | 'tweet' | 'youtube' | 'link';
+    type: 'document' | 'tweet' | 'video' | 'link' | 'bookmark'| 'note' | 'article';
    link: string;
     title: string;
    tags: string[];

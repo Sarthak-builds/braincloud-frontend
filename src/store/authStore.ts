@@ -2,6 +2,7 @@ import {create} from 'zustand';
 import { persist } from 'zustand/middleware';
 import { AuthFormData, AuthResponse, User } from '@/types';
 import * as api from '../lib/api'
+import { setAuthToken } from '../lib/api';
 
 export interface AuthState {
     user: User | null;
@@ -10,6 +11,7 @@ export interface AuthState {
     register: ( credentials: AuthFormData) => Promise<void>;
     login: (credentials: AuthFormData) => Promise<void>;
     logout: () => void;
+    initAuth: () => void;
 }
 
 const useAuthStore = create<AuthState>()(persist((set)=> ({
@@ -25,6 +27,7 @@ const useAuthStore = create<AuthState>()(persist((set)=> ({
                 username: response.user.username,
                 email: credentials.email,
             };
+            setAuthToken(response.token);
             set({user: userResponse, token:response.token,
                 isAuthenticated:true,
             });
@@ -32,9 +35,27 @@ const useAuthStore = create<AuthState>()(persist((set)=> ({
     },
     login: async ( credentials: AuthFormData) => {
         const response = await api.signinApi(credentials);
-        set({ token:response.token, isAuthenticated:true});
+       if (response.token && response.user) {
+          setAuthToken(response.token);
+          set({
+            token: response.token,
+            user: response.user,
+            isAuthenticated: true,
+          });
+        }
     },
-    logout: () => set({user:null, isAuthenticated:false, token:null}),
+    logout: () => {
+        setAuthToken(null);  // ← removes header
+        set({ token: null, user: null, isAuthenticated: false });
+      },
+      initAuth: () => {
+        const token = useAuthStore.getState().token;
+        if(token) { setAuthToken(token)};
+      },
+//@ts-ignore
+      onRehydrateStorage: () => (state) => {
+  state?.initAuth?.();},
+
 }),
 {
     name: 'auth-storage',

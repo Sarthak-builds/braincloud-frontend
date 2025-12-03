@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ContentFormData, ContentListResponse, Content, ContentResponse } from '@/types/content';
-import { addContentApi, getContentApi } from '@/lib/api';
+import { addContentApi, deleteContent, getContentApi } from '@/lib/api';
 
 interface ContentState {
     content: ContentListResponse['content'] | null;
@@ -9,6 +9,7 @@ interface ContentState {
     error:string | null;
     fetchContent: () => Promise<void>;
     addContent: (data:ContentFormData) => Promise<void>;
+    deleteContent: (id:string) => Promise<void>;
 }
 
  const useContentStore = create<ContentState>() (
@@ -35,6 +36,17 @@ interface ContentState {
           set({ error: err.message || 'Failed to add content', isLoading: false });
         }
       },
+      deleteContent: async (id: string) => {
+        set((state) => ({
+          content: state.content?.filter((item) => item.id !== id) || null,
+        }));
+
+        try {
+          await deleteContent(id); 
+        } catch (err: any) {
+          await get().fetchContent();
+        }
+    },
     }),
 {
     name: 'content=storage',

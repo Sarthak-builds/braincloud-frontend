@@ -18,7 +18,7 @@ export default function HomePage() {
   }, [isAuthenticated, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center  font-gothic ">
       <Card className="w-full max-w-md text-center">
         <CardHeader>
           <CardTitle className="text-2xl">Welcome to BrainCloud</CardTitle>

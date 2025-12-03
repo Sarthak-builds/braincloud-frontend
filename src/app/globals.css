@@ -18,12 +18,7 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-  },
-  colors: {
-    cyan: {
-      500:'#06b6d4',
-    },
-  },
+  }
 }
 @layer components {
   .card {

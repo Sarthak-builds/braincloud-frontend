@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useAuthStore from '@/store/authStore';
+import { ContentTabs } from '@/components/content-tabs';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -14,9 +15,13 @@ export default function DashboardPage() {
     }
   }, [isAuthenticated, router]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-    </div>
-  );
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl">Redirecting to sign in...</p>
+      </div>
+    );
+  }
+
+  return <ContentTabs />;
 }
