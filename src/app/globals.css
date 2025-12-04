@@ -14,6 +14,14 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
       }
+      .glass-panel {
+    @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-xl;
+  }
+  
+  .glass-input {
+    @apply bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:border-cyan-500/50 focus:bg-white/10 focus:ring-0 transition-all duration-300;
+  }
+
     }
 
 @layer base {

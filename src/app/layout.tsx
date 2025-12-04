@@ -23,26 +23,15 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="">
-     <div className="min-h-screen w-full bg-stone-900 relative z-20">
-  {/* Copper & Bronze Background */}
-  <div
-    className="absolute inset-0 -z-1"
-    style={{
-      backgroundImage: `
-        radial-gradient(circle at 50% 50%, 
-          rgba(194, 65, 12, 0.18) 0%, 
-          rgba(194, 65, 12, 0.1) 25%, 
-          rgba(194, 65, 12, 0.04) 35%, 
-          transparent 50%
-        )
-      `,
-      backgroundSize: "100% 100%",
-    }}
-  />
-  {children}
-</div>
-        
+      <body className="antialiased bg-black text-white selection:bg-cyan-500/30 selection:text-cyan-200">
+     <div className="fixed inset-0 z-0">
+          
+           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-amber-900/20 via-black to-black opacity-80" />
+           <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-[0.03] invert" />
+        </div>
+        <div className="relative z-10 min-h-screen">
+          {children}
+        </div>
        
       </body>
     </html>
