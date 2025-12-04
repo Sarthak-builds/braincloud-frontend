@@ -19,7 +19,7 @@ const tabs = [
 
 export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   return (
-    <div className="w-60  text-white bg-black/85 px-2  py-6 flex flex-col  h-150 mx-1 my-1 rounded-3xl relative scale-95 ">
+    <div className="w-60  text-white bg-black/85 px-2  py-6 flex flex-col  h-screen mx-1  relative  ">
       <div className="flex items-center gap-3 mb-10">
         <Brain className="w-8 h-8 text-yellow-400" />
         <h1 className="text-2xl font-bold">BrainCloud</h1>

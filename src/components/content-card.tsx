@@ -52,9 +52,9 @@ const handleDelete = (e: React.MouseEvent) => {
   }
 };
  
-return (<Card className="w-full hover:shadow-md flex flex-col transition-shadow duration-200 border-border/50 bg-white/5 text-white border-none max-h-fit relative">
+return (<Card className="w-full min-w-80 hover:shadow-md flex flex-col transition-shadow duration-200 border-border/50 bg-white/3 text-white border-none scrollbar-hidden  relative">
       <CardHeader className="">
-          <CardTitle className="text-lg font-medium line-clamp-2  uppercase">{content.title}</CardTitle>
+          <CardTitle className="text-base  font-bold text-white/60 line-clamp-2  font-gothic uppercase">{content.title}</CardTitle>
            <button
   onClick={handleDelete}
   className=" absolute right-5 z-10 scale-120"
@@ -68,21 +68,21 @@ return (<Card className="w-full hover:shadow-md flex flex-col transition-shadow 
           ))}
         </div>
       </CardHeader>
-      <CardContent className="pt-0 space-y-5">
+      <CardContent className="pt-0 space-y-3 overflow-y-auto no-scrollbar">
         {isTweet && tweetId && (
           <div className="mx-auto max-w-2xl">
             <Tweet id={tweetId} />
           </div>
         )}
         {isYoutube && youtubeEmbedUrl && (
-          <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+          <div className="relative rounded-2xl  border border-white/20 shadow-2xl w-full aspect-video">
             <iframe
               src={youtubeEmbedUrl}
-              className="w-full aspect-video border-0 rounded-2xl"
+              className="w-full  border-0 rounded-2xl h-full"
               allowFullScreen
               loading="lazy"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope;"
-              sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-presentation"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; web-share; picture-in-picture; clipboard-write;"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation"
               title={title}
             />
           </div>

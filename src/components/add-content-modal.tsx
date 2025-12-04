@@ -39,18 +39,18 @@ const handleSubmit = (e:React.FormEvent) => {
                 <Plus className='w-4 h-4'></Plus>Add Content
             </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md font-gothic bg-white/30 text-white">
+        <DialogContent className="sm:max-w-md font-gothic bg-white/35 text-white">
             <DialogHeader>
-          {/* <DialogTitle className=' text-white w-fit px-3 py-1 rounded border-none '>Add New Content</DialogTitle> */}
+         
         </DialogHeader>
         <form onSubmit={handleSubmit} className='space-y-4 '>
          <div className='text-white'>
             
             <Select name="type">
-              <SelectTrigger className='bg-black/70 border-none text-white'>
+              <SelectTrigger className='bg-black/80 border-none text-white'>
                 <SelectValue placeholder="Select type"  className='bg-white placeholder:text-white'/>
               </SelectTrigger>
-              <SelectContent className='bg-black/70 text-white '>
+              <SelectContent className='bg-black/80 text-white '>
                 <SelectItem value="document" className=''>Document</SelectItem>
                 <SelectItem value="tweet">Tweet</SelectItem>
                 <SelectItem value="video">Video</SelectItem>
@@ -59,9 +59,9 @@ const handleSubmit = (e:React.FormEvent) => {
               </SelectContent>
             </Select>
           </div>
-          <Input placeholder="Link URL" name="link" required className="bg-black/70 border-none text-white input-theme font0gothic" />
-          <Input placeholder="Title" name="title" required className="input-theme bg-black/70 border-none text-white font-gothic" />
-          <Input placeholder="Tags (comma-separated)" name="tags" className="input-theme bg-black/70 border-none text-white font-gothic" />
+          <Input placeholder="Link URL" name="link" required className="bg-black/80 border-none text-white input-theme font-gothic" />
+          <Input placeholder="Title" name="title" required className="input-theme bg-black/80 border-none text-white font-gothic" />
+          <Input placeholder="Tags (comma-separated)" name="tags" className="input-theme bg-black/80 border-none text-white font-gothic" />
           <Button type="submit" className="w-full bg-black/85 hover:bg-black/85 hover:text-yellow-500" disabled={loading}>
             {loading ? 'Adding...' : 'Add Content'}
           </Button>
