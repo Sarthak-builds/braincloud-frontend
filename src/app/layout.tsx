@@ -23,15 +23,22 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased bg-black text-white selection:bg-cyan-500/30 selection:text-cyan-200">
-     <div className="fixed inset-0 z-0">
-          
-           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-amber-900/20 via-black to-black opacity-80" />
-           <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-[0.03] invert" />
-        </div>
-        <div className="relative z-10 min-h-screen">
-          {children}
-        </div>
+      <body className="antialiased text-white selection:bg-yellow-500/30 selection:text-yellow-200">
+    <div className="min-h-screen w-full  relative">
+  {/* Volcanic Ember */}
+  <div
+    className="absolute inset-0 -z-1"
+    style={{
+      background: `
+        radial-gradient(ellipse 120% 70% at 70% 80%, rgba(87, 24, 69, 0.20), transparent 52%),
+        radial-gradient(ellipse 160% 45% at 30% 30%, rgba(153, 27, 27, 0.16), transparent 58%),
+        radial-gradient(ellipse 85% 100% at 10% 60%, rgba(69, 26, 3, 0.22), transparent 46%),
+        #1c1917
+      `,
+    }}
+  />
+  {children}
+</div>
        
       </body>
     </html>

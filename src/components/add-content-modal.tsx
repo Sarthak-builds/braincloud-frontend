@@ -35,22 +35,22 @@ const handleSubmit = (e:React.FormEvent) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-            <Button variant="default" className='text-white bg-black/85 hover:text-yellow-500 hover:bg-black/85 font-gothic'>
+            <Button variant="default" className='text-white  border-2 border-yellow-600 hover:text-yellow-500  font-gothic'>
                 <Plus className='w-4 h-4'></Plus>Add Content
             </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md font-gothic bg-white/35 text-white">
+        <DialogContent className="sm:max-w-md bg-black/90 backdrop-blur-xl border border-white/10 text-white shadow-2xl p-6 rounded-2xl font-gothic">
             <DialogHeader>
-         
+         <DialogTitle className="text-xl font-bold">Add New Memory</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className='space-y-4 '>
-         <div className='text-white'>
+        <form onSubmit={handleSubmit} className='space-y-4 mt-4'>
+         <div className='text-white space-y-4'>
             
             <Select name="type">
-              <SelectTrigger className='bg-black/80 border-none text-white'>
+              <SelectTrigger className='w-full bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-offset-0 focus:ring-yellow-500/50'>
                 <SelectValue placeholder="Select type"  className='bg-white placeholder:text-white'/>
               </SelectTrigger>
-              <SelectContent className='bg-black/80 text-white '>
+              <SelectContent className='bg-zinc-900 border-white/10 text-white rounded-xl '>
                 <SelectItem value="document" className=''>Document</SelectItem>
                 <SelectItem value="tweet">Tweet</SelectItem>
                 <SelectItem value="video">Video</SelectItem>
@@ -59,11 +59,18 @@ const handleSubmit = (e:React.FormEvent) => {
               </SelectContent>
             </Select>
           </div>
-          <Input placeholder="Link URL" name="link" required className="bg-black/80 border-none text-white input-theme font-gothic" />
-          <Input placeholder="Title" name="title" required className="input-theme bg-black/80 border-none text-white font-gothic" />
-          <Input placeholder="Tags (comma-separated)" name="tags" className="input-theme bg-black/80 border-none text-white font-gothic" />
-          <Button type="submit" className="w-full bg-black/85 hover:bg-black/85 hover:text-yellow-500" disabled={loading}>
-            {loading ? 'Adding...' : 'Add Content'}
+         <Input 
+                placeholder="Title" 
+                name="title" 
+                required 
+                className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50" 
+            />
+            
+            <Input 
+                placeholder="Link URL" name="link" required className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50 focus:outline-none" />
+            <Input  placeholder="Tags (comma separated)" name="tags" className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50 outline-none" />
+          <Button type="submit" className="w-full h-10 rounded-xl bg-yellow-600 text-white font-gothic hover:bg-gray-200 text-md mt-4" disabled={loading}>
+            {loading ? 'Adding...' : 'Create Content'}
           </Button>
         </form>
         </DialogContent>

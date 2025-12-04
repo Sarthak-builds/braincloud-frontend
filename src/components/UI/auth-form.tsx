@@ -9,6 +9,7 @@ import { useForm} from 'react-hook-form';
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import {motion} from 'framer-motion';
 
 interface AuthFormProps {
     type: 'signup' | 'signin' ;
@@ -21,10 +22,7 @@ interface FormData {
 }
 
 export function AuthForm({type, onSubmit}: AuthFormProps) {
-const { register, login, isAuthenticated} = useAuthStore();
-
-
-    //form
+const { register, login} = useAuthStore();
     const form = useForm<FormData>({
         defaultValues: {
             username: '',
@@ -32,8 +30,6 @@ const { register, login, isAuthenticated} = useAuthStore();
             ...(type==='signup' && {email: ''}),
         },
     });
-    
-    // onSubmit
     const handleSubmit = async (data: FormData) => {
      if (type === 'signup' && data.username) {
         await register({ email: data.email, password: data.password, username: data.username });
@@ -41,38 +37,86 @@ const { register, login, isAuthenticated} = useAuthStore();
         await login({ username: data.username, password: data.password });
       }
      const updatedState = useAuthStore.getState();
-      console.log('isAuthenticated after submit (from store):', updatedState.isAuthenticated); 
-      if (updatedState.isAuthenticated) {
-        onSubmit(data); 
-      }
+        if (updatedState.isAuthenticated) {
+            onSubmit(data);
+        }
     };
     
-    return (<div className="flex justify-center w-4xl items-center rounded-2xl font-gothic overflow-x-hidden bg-white px-4 scale-105">
-        
-        <Card className="bg-transparent border-none  text-white font-gothic rounded-r-none  w-4xl ">
-            <CardHeader className="gap-0">
-                <CardTitle className="text-3xl font-extralight">{type==='signup'? 'Create your Account': 'Welcome Back!'}</CardTitle>
-                {type==='signup'?<p className="text-white/50 text-md"> Build your Second Brain now!</p>: <p className="text-white/50 text-md">Let's get back to your Second Brain</p>}
-            </CardHeader>
-            <CardContent className="">
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="flex items-center flex-col gap-4  w-full min-w-fit">
-                 <Input className="py-1 border-0 bg-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Username" type="text" {...form.register('username', {required:true})}></Input>
-                 {type==='signup' &&<Input className="py-1 border-0 bg-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Email" type="email" {...form.register('email',{required:true})}></Input>}
-                 <Input className="py-1 border-0 bg-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Password" type="password" {...form.register('password', {required:true})}></Input>
-            <Button className="bg-cyan-500 mt-4 text-white w-40 hover:bg-cyan-600" type="submit" >{type==='signup' ? 'Sign Up': 'Sign In'}</Button>
-            <div className="flex relative -top-2">
-                {type==='signup'? <p>Already have an Account? </p>:<p>New to BrainCloud? </p>}
-                {type==='signup'? <Link href='/signin' className="px-1 text-cyan-400 cursor-pointer">Log in</Link>: <Link href='/signup' className="px-1 text-cyan-400 cursor-pointer">Register</Link>}
-            </div>
+    return (<motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col md:flex-row w-full max-w-4xl items-center rounded-3xl overflow-hidden glass-panel p-2"
+        >
+            {/* Form Section */}
+            <div className="flex-1 p-8 md:p-12 w-full">
+                <div className="mb-8">
+                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-white/60 mb-2">
+                        {type === 'signup' ? 'Create Account' : 'Welcome Back'}
+                    </h2>
+                    <p className="text-white/40">
+                        {type === 'signup' ? 'Start building your second brain.' : 'Access your knowledge base.'}
+                    </p>
+                </div>
+
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                    <Input 
+                        className="glass-input h-12" 
+                        placeholder="Username" 
+                        {...form.register('username', { required: true })} 
+                    />
+                    
+                    {type === 'signup' && (
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
+                            <Input 
+                                className="glass-input h-12" 
+                                placeholder="Email" 
+                                type="email" 
+                                {...form.register('email', { required: true })} 
+                            />
+                        </motion.div>
+                    )}
+                    <Input className="glass-input h-12" placeholder="Password" type="password" 
+                        {...form.register('password', { required: true })} />
+
+                    <Button 
+                        className="w-full h-12 bg-linear-to-r from-yellow-600 to-yellow-600 hover:from-yellow-500 hover:to-yellow-500 text-white font-medium rounded-xl shadow-lg shadow-yellow-900/20 mt-6" 
+                        type="submit"
+                    >
+                        {type === 'signup' ? 'Sign Up' : 'Sign In'}
+                    </Button>
                 </form>
-            </CardContent>
-        </Card>
-        <div className="w-full px-8   pointer-events-none">
-             
-            <Image src="/assets/Images/braincd.png" alt="braincloudimage" width={500} height={500} className="z-0 relative"></Image>
-            <p className="text-white/30 text-sm text-center">
-Where ideas connect, grow, and think with you.</p>
-       </div>
-        </div>
+
+                <div className="mt-6 text-center text-sm text-white/40">
+                    {type === 'signup' ? 'Already have an account?' : "Don't have an account?"}
+                    <Link 
+                        href={type === 'signup' ? '/signin' : '/signup'} 
+                        className="ml-2 text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
+                    >
+                        {type === 'signup' ? 'Log in' : 'Register'}
+                    </Link>
+                </div>
+            </div>
+
+            <div className="hidden md:flex flex-1 flex-col items-center justify-center p-8 bg-white/5 rounded-2xl h-full min-h-[500px] relative overflow-hidden">
+                <div className="absolute inset-0 bg-linear-to-br from-yellow-500/10 to-transparent" />
+                <motion.div 
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                    className="relative z-10"
+                >
+                    <Image 
+                        src="/assets/Images/braincd.png" 
+                        alt="braincloud" 
+                        width={400} 
+                        height={400} 
+                        className="object-contain drop-shadow-2xl"
+                    />
+                </motion.div>
+                <p className="mt-8 text-center text-white/50 max-w-xs relative z-10 font-light">
+                    "Where ideas connect, grow, and think with you."
+                </p>
+            </div>
+        </motion.div>
     );
 }

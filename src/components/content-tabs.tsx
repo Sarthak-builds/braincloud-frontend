@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ContentCard } from '@/components/content-card';
-import useContentStore from '@/store/contentStore';
-import { Sidebar } from '@/components/sidebar';
-import { AddContentModal } from '@/components/add-content-modal';
-import { Content } from '@/types/content';
+import { ContentCard } from './content-card';
+import useContentStore from '../store/contentStore';
+import { Sidebar } from './sidebar';
+import { AddContentModal } from './add-content-modal';
+import { Content } from '../types/content';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function ContentTabs() {
   const { fetchContent, content, isLoading } = useContentStore();
@@ -14,15 +15,16 @@ export function ContentTabs() {
   useEffect(() => {
     fetchContent();
   }, [fetchContent]);
+
   const getCardSpan = (item: Content): number => {
-  
-  if (item.type === 'tweet') return 18;
-  if (item.type === 'video') return 10;
-  if (item.type === 'document') return 1;
-  if(item.type === 'link') return 10;
-  if (item.tags.length > 5 || item.title.length > 50) return 18;
-  return 20; 
-};
+    // Adjusted spans for better organization in a 3-column grid
+    if (item.type === 'tweet') return 16;
+    if (item.type === 'video') return 14; 
+    if (item.type === 'document') return 1; // Default small
+    if (item.type === 'link') return 12;
+    if (item.tags.length > 5 || item.title.length > 50) return 14;
+    return 12; 
+  };
 
   const filteredContent = content?.filter((item) => {
     if (activeTab === 'all-notes') return true;
@@ -35,53 +37,69 @@ export function ContentTabs() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl text-white/60">Loading your brain...</div>
-      </div>
-    );
-  }
-
-  if (!content || content.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-8">
-        <p className="text-2xl text-white/60">Your brain is empty</p>
-        <AddContentModal />
+      <div className="flex items-center justify-center min-h-screen bg-black font-gothic">
+        <motion.div 
+          animate={{ opacity: [0.5, 1, 0.5] }} 
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="text-xl text-white/60 font-light"
+        >
+          Loading your brain...
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-linear-to-br from-black via-zinc-900 to-black pl-60"><div className='fixed left-0 top-'>
+    <div className="min-h-screen  pl-64 transition-all duration-300 font-gothic">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-    </div>
-      
 
       <div className="flex-1 p-8 overflow-y-auto">
-        <div className="flex justify-between items-center mb-12">
-          <h1 className="text-4xl font-bold text-white">
-            {activeTab === 'all-notes' ? 'All Notes' : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-          </h1>
+        <div className="flex justify-between items-center mb-10 max-w-7xl mx-auto text-white">
+          <motion.h1 
+            key={activeTab}
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 260, 
+              damping: 20, 
+              duration: 0.5 
+            }}
+            className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-br from-yellow-500 via-/90 to-yellow-800 tracking-tight font-gothic drop-shadow-[0_0_15px_rgba(255,255,255,1)]"
+          >
+            {activeTab === 'all-notes' ? 'All Memories' : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+          </motion.h1>
           <AddContentModal />
         </div>
 
-        {filteredContent.length === 0 ? (
-          <div className="text-center py-32">
-            <p className="text-2xl text-white/40 mb-6">
-              No {activeTab === 'all-notes' ? 'content' : activeTab} yet
+        {(!content || filteredContent.length === 0) ? (
+          <div className="flex flex-col items-center justify-center py-32 text-center">
+            <p className="text-2xl text-white/40 mb-6 font-light">
+              Your brain is empty here.
             </p>
             <AddContentModal />
           </div>
         ) : (
-          <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-6 auto-rows-[10px] scale-95  "  >
-            {filteredContent.map((item) => (
-              <div key={item.id} className="flex" style={{ 
-        gridRowEnd: `span ${getCardSpan(item)}` 
-      }}>
-                <ContentCard content={item} />
-              </div>
-            ))}
-          </div>
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-y-5.5 gap-x-3 auto-rows-[3px] max-w-7xl mx-auto"
+          >
+            <AnimatePresence mode='popLayout'>
+              {filteredContent.map((item) => (
+                <motion.div 
+                  layout
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                  style={{ gridRowEnd: `span ${getCardSpan(item)}` }}
+                >
+                  <ContentCard content={item} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </div>
     </div>
