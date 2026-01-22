@@ -7,6 +7,7 @@ import { Sidebar } from './sidebar';
 import { AddContentModal } from './add-content-modal';
 import { Content } from '../types/content';
 import { motion, AnimatePresence } from 'framer-motion';
+import Masonry from 'react-masonry-css';
 
 export function ContentTabs() {
   const { fetchContent, content, isLoading } = useContentStore();
@@ -17,13 +18,15 @@ export function ContentTabs() {
   }, [fetchContent]);
 
   const getCardSpan = (item: Content): number => {
-    // Adjusted spans for better organization in a 3-column grid
-    if (item.type === 'tweet') return 16;
-    if (item.type === 'video') return 14; 
-    if (item.type === 'document') return 1; // Default small
-    if (item.type === 'link') return 12;
-    if (item.tags.length > 5 || item.title.length > 50) return 14;
-    return 12; 
+    // 1 row = 10px + gap.
+    // Tighter fitting for Bento look.
+
+    if (item.type === 'tweet') return 20; // ~200px
+    if (item.type === 'video') return 24; // ~240px
+    if (item.type === 'document') return 16; // ~160px
+    if (item.type === 'link') return 16;
+    if (item.tags.length > 5 || item.title.length > 50) return 20;
+    return 16;
   };
 
   const filteredContent = content?.filter((item) => {
@@ -38,8 +41,8 @@ export function ContentTabs() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-black font-gothic">
-        <motion.div 
-          animate={{ opacity: [0.5, 1, 0.5] }} 
+        <motion.div
+          animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 1.5, repeat: Infinity }}
           className="text-xl text-white/60 font-light"
         >
@@ -50,22 +53,22 @@ export function ContentTabs() {
   }
 
   return (
-    <div className="min-h-screen  pl-64 transition-all duration-300 font-gothic">
+    <div className="min-h-screen md:pl-64 transition-all duration-300 font-gothic bg-black">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
         <div className="flex justify-between items-center mb-10 max-w-7xl mx-auto text-white">
-          <motion.h1 
+          <motion.h1
             key={activeTab}
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 260, 
-              damping: 20, 
-              duration: 0.5 
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
+              duration: 0.5
             }}
-            className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-br from-yellow-500 via-/90 to-yellow-800 tracking-tight font-gothic drop-shadow-[0_0_15px_rgba(255,255,255,1)]"
+            className="text-3xl font-bold text-white tracking-tight font-gothic"
           >
             {activeTab === 'all-notes' ? 'All Memories' : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
           </motion.h1>
@@ -80,26 +83,32 @@ export function ContentTabs() {
             <AddContentModal />
           </div>
         ) : (
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-y-5.5 gap-x-3 auto-rows-[3px] max-w-7xl mx-auto"
+          <Masonry
+            breakpointCols={{
+              default: 4,
+              1100: 3,
+              700: 2,
+              500: 1
+            }}
+            className="flex w-auto -ml-4"
+            columnClassName="pl-4 bg-clip-padding"
           >
             <AnimatePresence mode='popLayout'>
               {filteredContent.map((item) => (
-                <motion.div 
+                <motion.div
                   layout
                   key={item.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.2 }}
-                  style={{ gridRowEnd: `span ${getCardSpan(item)}` }}
+                  className="mb-4"
                 >
                   <ContentCard content={item} />
                 </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </Masonry>
         )}
       </div>
     </div>

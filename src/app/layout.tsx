@@ -22,6 +22,10 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
           rel="stylesheet"
         />
+        <script
+  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+  type="module"
+></script>
       </head>
       <body className="antialiased text-white selection:bg-yellow-500/30 selection:text-yellow-200">
     <div className="min-h-screen w-full  relative">

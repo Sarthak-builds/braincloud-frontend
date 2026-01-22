@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {motion} from 'framer-motion';
 
+
 interface AuthFormProps {
     type: 'signup' | 'signin' ;
     onSubmit: (data: FormData) => void;
@@ -99,7 +100,7 @@ const { register, login} = useAuthStore();
             </div>
 
             <div className="hidden md:flex flex-1 flex-col items-center justify-center p-8 bg-white/5 rounded-2xl h-full min-h-[500px] relative overflow-hidden">
-                <div className="absolute inset-0 bg-linear-to-br from-yellow-500/10 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-b from-black via-black to-yellow-500/40" />
                 <motion.div 
                     animate={{ y: [0, -10, 0] }}
                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}

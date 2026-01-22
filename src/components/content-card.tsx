@@ -1,12 +1,12 @@
-import { Clock, ExternalLink, Trash2, Twitter } from 'lucide-react';
+import { Clock, ExternalLink, Trash2, Twitter, Youtube, FileText, Link, Globe } from 'lucide-react';
 import { Badge } from './UI/badge';
 import { Content } from '../types/content';
 import useContentStore from '../store/contentStore';
 import { motion } from 'framer-motion';
-import { Tweet} from 'react-tweet';
+import { Tweet } from 'react-tweet';
 
 interface ContentCardProps {
-    content: Content;
+  content: Content;
 }
 
 export function ContentCard({ content }: ContentCardProps) {
@@ -52,72 +52,99 @@ export function ContentCard({ content }: ContentCardProps) {
   };
 
   return (
-    <motion.div 
-      className="group w-full h-full hover:bg-white/15 border border-white/5 hover:border-white/10 transition-all duration-300 rounded-lg overflow-hidden shadow-2xl hover:shadow-xl hover:-translate-y-1 relative flex flex-col font-gothic bg-white/5 backdrop-blur-3xl max-h-[500px]"
+    <motion.div
+      className="group w-full h-full min-h-[140px] flex flex-col bg-black/40 hover:bg-neutral-900/60 border border-white/5 hover:border-white/10 transition-colors duration-200 rounded-xl overflow-hidden relative font-gothic backdrop-blur-sm"
     >
-      <div className="relative z-10 px-5 pt-5 pb-2">
-        <div className="flex justify-between items-start gap-4">
-          <h3 className="text-base font-semibold text-white/90 line-clamp-2 leading-snug uppercase tracking-wide">
-            {content.title}
-          </h3>
+      {/* Decorative gradient blob */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-500/5 blur-3xl rounded-full group-hover:bg-yellow-500/10 transition-colors pointer-events-none" />
+
+      <div className="px-4 py-4 flex flex-col gap-3 relative z-10">
+        {/* Header Section */}
+        <div className="flex justify-between items-start gap-2">
+          <div className="flex items-center gap-2 text-white/40 mb-1">
+            <div className="p-1 rounded-full bg-white/5">
+              {type === 'tweet' && <Twitter className="w-3 h-3 text-blue-400" />}
+              {type === 'video' && <Youtube className="w-3 h-3 text-red-500" />}
+              {type === 'document' && <FileText className="w-3 h-3 text-orange-400" />}
+              {(type === 'link' || type === 'article') && <Globe className="w-3 h-3 text-emerald-400" />}
+            </div>
+            <span className="text-[10px] uppercase tracking-wider font-bold opacity-60">{type}</span>
+          </div>
           <button
             onClick={handleDelete}
-            className="opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-500/20 p-1.5 rounded-full"
+            className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-500/10 p-1.5 rounded-md -mr-1 -mt-1 cursor-pointer"
           >
-            <Trash2 className="w-4 h-4 text-red-400" />
+            <Trash2 className="w-3.5 h-3.5 text-red-400/50 hover:text-red-400" />
           </button>
         </div>
-        {content.tags.length>0?<div className="flex flex-wrap gap-1.5 ">
-          {content.tags.map((tag) => (
-            <Badge 
-              key={tag} 
-              variant="outline" 
-              className=" px-2 py-1 text-yellow-200 bg-yellow-500/10 border-yellow-500/20 capitalize font-light font-gothic"
-            >
-              # {tag}
-            </Badge>
-          ))}
-        </div>:null}
-      </div>
-      <div className="space-y-3 p-0 flex-1 overflow-y-auto no-scrollbar flex flex-col">
-          {isTweet && tweetId && (
-          <div className="mx-auto max-w-[270px] scale-95">
-            <Tweet  id={tweetId} />
-          </div>
-        )}
 
-        {isYoutube && youtubeEmbedUrl && (
-          <div className="w-full aspect-video px-2">
-            <iframe
-              src={youtubeEmbedUrl}
-              className="w-full h-full rounded-2xl"
-              allowFullScreen
-              loading="lazy"
-              title={title}
-            />
-          </div>
-        )}
-        {!isTweet && !isYoutube && (
-          <div className="px-5 pb-4 pt-2 flex-1">
+        <h3 className="text-sm font-semibold text-white/90 leading-snug break-words line-clamp-3">
+          {content.title}
+        </h3>
+
+        {/* Content Body */}
+        <div className="pt-2">
+          {isTweet && tweetId && (
+            <div className="w-full scale-[0.9] origin-top-left -ml-1 -mt-2 h-[200px] overflow-hidden mask-linear-fade">
+              <Tweet id={tweetId} />
+            </div>
+          )}
+
+          {isYoutube && youtubeEmbedUrl && (
+            <div className="w-full aspect-video rounded-lg overflow-hidden bg-black/50 border border-white/5">
+              <iframe
+                src={youtubeEmbedUrl}
+                className="w-full h-full"
+                allowFullScreen
+                loading="lazy"
+                title={title}
+              />
+            </div>
+          )}
+
+          {!isTweet && !isYoutube && (
             <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center w-full h-32 rounded-xl bg-black/20 border border-yellow-500/20 hover:border-yellow-500/30 hover:bg-yellow-500/5 transition-all group/link"
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 w-full p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 transition-all group/link"
             >
-                <ExternalLink className="w-6 h-6 text-white/40 group-hover/link:text-yellow-400 mb-2 transition-colors" />
-                <p className="text-white/30 text-xs truncate max-w-[80%]">{new URL(link).hostname}</p>
+              <div className="w-8 h-8 rounded-full bg-black/30 flex items-center justify-center shrink-0 border border-white/5 overflow-hidden">
+                {/* Google Favicon Service for logo */}
+                <img
+                  src={`https://www.google.com/s2/favicons?domain=${new URL(link).hostname}&sz=64`}
+                  alt="icon"
+                  className="w-5 h-5 opacity-70 group-hover/link:opacity-100 transition-opacity"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://www.google.com/s2/favicons?domain=${new URL(link).hostname}&sz=32`;
+                  }}
+                />
+                <ExternalLink className="w-3 h-3 text-white/40 hidden" />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <p className="text-white/80 text-xs font-medium truncate">{new URL(link).hostname}</p>
+                <p className="text-white/30 text-[10px] truncate">{link}</p>
+              </div>
             </a>
+          )}
+        </div>
+
+        {/* Tags */}
+        {content.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5 mt-3">
+            {content.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 text-[10px] rounded-full bg-white/5 text-white/50 border border-white/5 capitalize font-medium whitespace-nowrap"
+              >
+                #{tag}
+              </span>
+            ))}
           </div>
         )}
       </div>
-      <div className="px-5 py-1.5 border-t border-white/5 flex items-center justify-between text-[12px] text-white/30 bg-black/20 mt-auto">
-        <div className="flex items-center gap-1.5">
-          <Clock className="w-4 h-4" />
-          <span>{new Date().toLocaleDateString()}</span>
-        </div>
-        <span className="uppercase tracking-wider font-semibold opacity-70 text-[12px]">{type}</span>
-      </div>
+
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
     </motion.div>
   );
 }

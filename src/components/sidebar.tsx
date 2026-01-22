@@ -3,7 +3,7 @@
 import { Home, Twitter, Youtube, FileText, Link, Brain } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ShareBrainButton } from './share-brain';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface SidebarProps {
   activeTab: string;
@@ -20,40 +20,31 @@ const tabs = [
 
 export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   return (
-   <div className="w-64 text-white bg-black/10 backdrop-blur-md border-r border-white/10 px-4 py-6 flex flex-col h-screen fixed left-0 top-0 z-50 font-gothic">
-      <div className="flex items-center gap-3 mb-10 px-2">
-        <div className="p-2 bg-linear-to-br from-yellow-500 to-orange-600 rounded-lg shadow-lg shadow-orange-900/20">
-            <Brain className="w-6 h-6 text-white" />
+    <div className="hidden md:flex w-64 bg-black/50 border-r border-white/10 flex-col h-screen fixed left-0 top-0 z-50 font-gothic backdrop-blur-xl">
+      <div className="flex items-center gap-3 px-4 py-4 mb-2 hover:bg-white/5 cursor-pointer transition-colors duration-200">
+        <div className="p-1 bg-yellow-600/20 rounded-sm">
+          <Brain className="w-5 h-5 text-yellow-500" />
         </div>
-        <h1 className="text-xl font-bold tracking-wide">BrainCloud</h1>
+        <h1 className="text-sm font-semibold tracking-wide text-white/90">BrainCloud</h1>
       </div>
 
-      <nav className="space-y-5 flex-1">
+      <nav className="space-y-0.5 flex-1 px-2">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={cn(
-              'relative w-full flex items-center gap-5 px-2 py-2 rounded-xl transition-all duration-300 group font-gothic',
-              activeTab === tab.id ? 'text-white' : 'text-gray-400 hover:text-white'
+              'relative w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-all duration-200 group text-sm',
+              activeTab === tab.id ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'
             )}
           >
-            {activeTab === tab.id && (
-              <motion.div
-                layoutId="sidebar-active"
-                className="absolute inset-0 bg-white/8 rounded-xl"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              />
-            )}
-            <span className="relative z-10">
-                <tab.icon className={cn("w-5 h-5", activeTab === tab.id ? "text-yellow-500" : "group-hover:text-yellow-500/70")} />
-            </span>
-            <span className="relative z-10 font-medium">{tab.label}</span>
+            <tab.icon className={cn("w-4 h-4", activeTab === tab.id ? "text-yellow-500" : "text-gray-500 group-hover:text-yellow-500/80")} />
+            <span className="font-medium">{tab.label}</span>
           </button>
         ))}
       </nav>
-      
-      <div className="pt-6 border-t border-white/10 text-center">
+
+      <div className="p-4 border-t border-white/10">
         <ShareBrainButton />
       </div>
     </div>

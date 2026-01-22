@@ -5,11 +5,9 @@
 
 @custom-variant dark (&:is(.dark *));
     @layer utilities {
-      /* Hide scrollbar for Chrome, Safari and Opera */
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
-      /* Hide scrollbar for IE, Edge and Firefox */
       .no-scrollbar {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
@@ -20,6 +18,11 @@
   
   .glass-input {
     @apply bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:border-yellow-500/50 focus:bg-white/10 focus:ring-0 transition-all duration-300;
+  }
+
+  .mask-linear-fade {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 
     }

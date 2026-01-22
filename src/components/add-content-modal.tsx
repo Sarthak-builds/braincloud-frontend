@@ -55,7 +55,7 @@ const handleSubmit = (e:React.FormEvent) => {
                 <SelectItem value="tweet">Tweet</SelectItem>
                 <SelectItem value="video">Video</SelectItem>
                 <SelectItem value="link">Link</SelectItem>
-                <SelectItem value="link">Article</SelectItem>
+                <SelectItem value="Article">Article</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -63,11 +63,8 @@ const handleSubmit = (e:React.FormEvent) => {
                 placeholder="Title" 
                 name="title" 
                 required 
-                className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50" 
-            />
-            
-            <Input 
-                placeholder="Link URL" name="link" required className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50 focus:outline-none" />
+                className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50" />
+            <Input placeholder="Link URL" name="link" required className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50 focus:outline-none" />
             <Input  placeholder="Tags (comma separated)" name="tags" className="bg-white/5 border-white/10 text-white h-12 rounded-xl placeholder:text-white/30 focus-visible:ring-yellow-500/50 outline-none" />
           <Button type="submit" className="w-full h-10 rounded-xl bg-yellow-600 text-white font-gothic hover:bg-gray-200 text-md mt-4" disabled={loading}>
             {loading ? 'Adding...' : 'Create Content'}
